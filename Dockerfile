@@ -17,4 +17,6 @@ WORKDIR /etc/xray
 COPY config.json .
 
 # Speed မြန်အောင် Tunnel protocol ကို http2 ပြောင်းထားပါတယ်
-CMD xray run -c /etc/xray/config.json & /usr/local/bin/cloudflared tunnel --no-autoupdate run --token $TUNNEL_TOKEN --protocol http2
+# Dockerfile ရဲ့ အောက်ဆုံးစာကြောင်းမှာ ဒါကို သုံးပေးပါ
+CMD /usr/local/bin/xray run -c /etc/xray/config.json & /usr/local/bin/cloudflared tunnel --no-autoupdate run --token $TUNNEL_TOKEN
+
