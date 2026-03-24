@@ -1,42 +1,53 @@
 {
+  "log": {
+    "loglevel": "warning",
+    "access": "/var/log/xray/access.log",
+    "error": "/var/log/xray/error.log"
+  },
   "inbounds": [
     {
-      "tag": "proxy",
+      "listen": "0.0.0.0",
       "port": 8080,
       "protocol": "vless",
       "settings": {
         "clients": [
           {
             "id": "f2e17b4d-22fd-44a4-90db-40649717be8e",
-            "flow": "xtls-rprx-vision"
+            "flow": "xtls-rprx-vision",
+            "level": 0
           }
         ],
-        "decryption": "none"
+        "decryption": "none",
+        "fallbacks": []
       },
       "streamSettings": {
         "network": "ws",
+        "security": "none",
         "wsSettings": {
-          "path": "/"
-        },
-        "security": "none"
+          "path": "/",
+          "headers": {
+            "Host": "my-vless-pubg-production.up.railway.app"
+          }
+        }
       },
       "sniffing": {
         "enabled": true,
-        "destOverride": ["http", "tls"]
+        "destOverride": ["http", "tls", "quic"],
+        "routeOnly": false
       }
     }
   ],
   "outbounds": [
     {
-      "tag": "direct",
       "protocol": "freedom",
+      "tag": "direct",
       "settings": {
         "domainStrategy": "UseIP"
       }
     },
     {
-      "tag": "block",
       "protocol": "blackhole",
+      "tag": "block",
       "settings": {}
     }
   ],
@@ -52,7 +63,41 @@
         "type": "field",
         "protocol": ["bittorrent"],
         "outboundTag": "block"
+      },
+      {
+        "type": "field",
+        "domain": ["geosite:category-ads-all"],
+        "outboundTag": "block"
       }
     ]
+  },
+  "policy": {
+    "levels": {
+      "0": {
+        "handshake": 4,
+        "connIdle": 300,
+        "uplinkOnly": 2,
+        "downlinkOnly": 2,
+        "statsUserUplink": true,
+        "statsUserDownlink": true,
+        "bufferSize": 1024
+      }
+    },
+    "system": {
+      "statsInboundUplink": true,
+      "statsInboundDownlink": true,
+      "statsOutboundUplink": true,
+      "statsOutboundDownlink": true
+    }
+  },
+  "stats": {},
+  "api": {
+    "tag": "api",
+    "services": ["StatsService"]
+  },
+  "observatory": {
+    "subjectSelector": ["outbound"],
+    "probeURL": "https://www.google.com/generate_204",
+    "probeInterval": "1m"
   }
 }
