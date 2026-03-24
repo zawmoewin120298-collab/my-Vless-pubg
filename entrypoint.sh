@@ -1,29 +1,17 @@
 #!/bin/bash
 
-echo "========================================="
-echo "Starting Xray VLESS + Cloudflare Tunnel"
-echo "========================================="
+# Xray ကို background မှာ အရင် run မယ်
+xray run -c /etc/xray/config.json &
 
-# Start Xray in background
-echo "[*] Starting Xray on port 8080..."
-/usr/local/bin/xray -c /etc/xray/config.json &
-
-# Wait for Xray to start
-sleep 2
-
-# Start Cloudflare Tunnel if token exists
-if [ -n "$TUNNEL_TOKEN" ]; then
-    echo "[*] Cloudflare Tunnel token found, starting tunnel..."
-    /usr/local/bin/cloudflared tunnel --no-autoupdate run --token "$TUNNEL_TOKEN" &
-    echo "[✓] Cloudflare Tunnel started"
+# Cloudflare Token ရှိရင် Cloudflare ကို run မယ်
+if [ ! -z "$TUNNEL_TOKEN" ]; then
+    echo "Starting Cloudflare Tunnel..."
+    cloudflared tunnel --no-autoupdate run --token $TUNNEL_TOKEN
+# Ngrok Token ရှိရင် Ngrok ကို run မယ်
+elif [ ! -z "$NGROK_AUTHTOKEN" ]; then
+    echo "Starting Ngrok Tunnel..."
+    ngrok tcp 443 --authtoken $NGROK_AUTHTOKEN
 else
-    echo "[!] No TUNNEL_TOKEN found, running without tunnel"
-    echo "[!] Use Railway domain: my-vless-pubg-production.up.railway.app:8080"
+    echo "Error: No Token provided (TUNNEL_TOKEN or NGROK_AUTHTOKEN)"
+    exit 1
 fi
-
-echo "========================================="
-echo "[✓] Services started successfully"
-echo "========================================="
-
-# Keep container running
-wait
