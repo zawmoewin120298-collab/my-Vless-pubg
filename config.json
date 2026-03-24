@@ -18,7 +18,7 @@
         ]
       },
       "streamSettings": {
-        "network": "grpc",
+        "network": "ws",
         "security": "tls",
         "grpcSettings": {
           "serviceName": "vless",
