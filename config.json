@@ -1,28 +1,30 @@
 {
-  "inbounds": [
-    {
-      "port": 8080,
-      "protocol": "vless",
-      "settings": {
-        "clients": [
-          {
-            "id": "10682ad0-30f6-4652-8899-aed82625e86e",
-            "flow": "xtls-rprx-vision"
-          }
-        ],
-        "decryption": "none"
-      },
-      "streamSettings": {
-        "network": "ws",
-        "wsSettings": {
-          "path": "/"
-        }
-      }
-    }
-  ],
   "outbounds": [
     {
-      "protocol": "freedom"
+      "protocol": "vless",
+      "settings": {
+        "vnext": [
+          {
+            "address": "pubgml.bigccoth.indevs.in",
+            "port": 443,
+            "users": [
+              {
+                "id": "38d2266d-19e5-4f83-b93e-56a65311a946",
+                "flow": "xtls-rprx-vision",
+                "encryption": "none"
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "grpc",
+        "security": "tls",
+        "grpcSettings": {
+          "serviceName": "vless",
+          "multiMode": true
+        }
+      }
     }
   ]
 }
