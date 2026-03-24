@@ -1,66 +1,15 @@
 {
-  "inbounds": [
-    {
-      "port": 8080,
-      "protocol": "vless",
-      "settings": {
-        "clients": [
-          {
-            "id": "1dd875db-3bdc-42ca-a0a8-af28555ad234",
-            "flow": "xtls-rprx-vision"
-          }
-        ],
-        "decryption": "none"
-      },
-      "streamSettings": {
-        "network": "ws",
-        "wsSettings": {
-          "path": "/getWorkerUpdates"
-        },
-        "sockopt": {
-          "tcpFastOpen": true,
-          "tcpKeepAliveInterval": 30,
-          "tcpKeepAliveIdle": 300,
-          "tcpNoDelay": true
-        }
-      },
-      "sniffing": {
-        "enabled": true,
-        "destOverride": ["http", "tls", "quic"]
-      }
+  "inbounds": [{
+    "port": 8080,
+    "protocol": "vless",
+    "settings": {
+      "clients": [{"id": "1dd875db-3bdc-42ca-a0a8-af28555ad234"}],
+      "decryption": "none"
+    },
+    "streamSettings": {
+      "network": "ws",
+      "wsSettings": {"path": "/getWorkerUpdates"}
     }
-  ],
-  "outbounds": [
-    {
-      "protocol": "freedom",
-      "settings": {
-        "domainStrategy": "UseIP"
-      },
-      "sockopt": {
-        "tcpFastOpen": true,
-        "tcpNoDelay": true
-      }
-    }
-  ],
-  "routing": {
-    "domainStrategy": "IPIfNonMatch",
-    "rules": [
-      {
-        "type": "field",
-        "ip": ["geoip:private"],
-        "outboundTag": "block"
-      }
-    ]
-  },
-  "policy": {
-    "levels": {
-      "0": {
-        "bufferSize": 8192,
-        "handshake": 3,
-        "connIdle": 300,
-        "uplinkOnly": 1,
-        "downlinkOnly": 1
-      }
-    }
-  }
+  }],
+  "outbounds": [{"protocol": "freedom","settings": {}}]
 }
