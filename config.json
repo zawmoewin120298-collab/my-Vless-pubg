@@ -13,16 +13,20 @@
         "decryption": "none"
       },
       "streamSettings": {
-        "network": "TCP",
-        "wsSettings": {
-          "path": "/"
+        "network": "tcp",
+        "security": "none",
+        "tcpSettings": {
+          "header": {
+            "type": "none"
+          }
         }
       }
     }
   ],
   "outbounds": [
     {
-      "protocol": "freedom"
+      "protocol": "freedom",
+      "settings": {}
     }
   ]
 }
