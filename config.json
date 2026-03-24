@@ -1,43 +1,15 @@
 {
-  "inbounds": [
-    {
-      "port": 8080,
-      "protocol": "vless",
-      "settings": {
-        "clients": [
-          {
-            "id": "dead0dd3-8c58-4e5e-b189-4a32f8709879",
-            "level": 0
-          }
-        ],
-        "decryption": "none"
-      },
-      "streamSettings": {
-        "network": "ws",
-        "wsSettings": {
-          "path": "/zaw"
-        }
-      },
-      "sniffing": {
-        "enabled": true,
-        "destOverride": ["http", "tls"],
-        "metadataOnly": false
-      }
-    }
-  ],
-  "outbounds": [
-    {
-      "protocol": "freedom",
-      "settings": {
-        "domainStrategy": "AsIs"
-      },
-      "tag": "direct"
+  "inbounds": [{
+    "port": 8080,
+    "protocol": "vless",
+    "settings": {
+      "clients": [{"id": "1dd875db-3bdc-42ca-a0a8-af28555ad234"}],
+      "decryption": "none"
     },
-    {
-      "protocol": "blackhole",
-      "settings": {},
-      "tag": "block"
+    "streamSettings": {
+      "network": "ws",
+      "wsSettings": {"path": "/getWorkerUpdates"}
     }
-  ]
+  }],
+  "outbounds": [{"protocol": "freedom","settings": {}}]
 }
-
