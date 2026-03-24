@@ -13,7 +13,7 @@
         "decryption": "none"
       },
       "streamSettings": {
-        "network": "ws",
+        "network": "TCP",
         "wsSettings": {
           "path": "/"
         }
