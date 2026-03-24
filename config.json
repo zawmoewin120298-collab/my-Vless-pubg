@@ -7,7 +7,7 @@
         "clients": [
           {
             "id": "10682ad0-30f6-4652-8899-aed82625e86e",
-            "level": 0
+            "flow": "xtls-rprx-vision"
           }
         ],
         "decryption": "none"
@@ -15,28 +15,14 @@
       "streamSettings": {
         "network": "ws",
         "wsSettings": {
-          "path": "/zaw"
+          "path": "/"
         }
-      },
-      "sniffing": {
-        "enabled": true,
-        "destOverride": ["http", "tls"],
-        "metadataOnly": false
       }
     }
   ],
   "outbounds": [
     {
-      "protocol": "freedom",
-      "settings": {
-        "domainStrategy": "AsIs"
-      },
-      "tag": "direct"
-    },
-    {
-      "protocol": "blackhole",
-      "settings": {},
-      "tag": "block"
+      "protocol": "freedom"
     }
   ]
 }
