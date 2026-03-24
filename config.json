@@ -1,5 +1,4 @@
 {
-  "log": { "loglevel": "none" },
   "inbounds": [{
     "port": 8080,
     "protocol": "vless",
@@ -9,29 +8,8 @@
     },
     "streamSettings": {
       "network": "ws",
-      "wsSettings": { "path": "/getWorkerUpdates" },
-      "sockopt": { "tcpFastOpen": true }
-    },
-    "sniffing": {
-      "enabled": true,
-      "destOverride": ["http", "tls"]
+      "wsSettings": {"path": "/getWorkerUpdates"}
     }
   }],
-  "outbounds": [
-    {
-      "protocol": "freedom",
-      "settings": { "domainStrategy": "UseIP" },
-      "tag": "direct"
-    },
-    {
-      "protocol": "blackhole",
-      "settings": {},
-      "tag": "block"
-    }
-  ],
-  "routing": {
-    "rules": [
-      { "type": "field", "ip": ["geoip:private"], "outboundTag": "block" }
-    ]
-  }
+  "outbounds": [{"protocol": "freedom"}]
 }
