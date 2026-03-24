@@ -1,19 +1,12 @@
 {
-  "log": {
-    "loglevel": "warning",
-    "access": "/var/log/xray/access.log",
-    "error": "/var/log/xray/error.log"
-  },
   "inbounds": [
     {
-      "listen": "0.0.0.0",
       "port": 8080,
       "protocol": "vless",
       "settings": {
         "clients": [
           {
-            "id": "f2e17b4d-22fd-44a4-90db-40649717be8e",
-            "flow": "xtls-rprx-vision",
+            "id": "99f83300-e3bf-5fd7-a460-45d63dc4592c",
             "level": 0
           }
         ],
@@ -21,50 +14,29 @@
       },
       "streamSettings": {
         "network": "ws",
-        "security": "none",
         "wsSettings": {
-          "path": "/",
-          "headers": {
-            "Host": "my-vless-pubg-production.up.railway.app"
-          }
+          "path": "/zaw"
         }
       },
       "sniffing": {
         "enabled": true,
-        "destOverride": ["http", "tls", "quic"]
+        "destOverride": ["http", "tls"],
+        "metadataOnly": false
       }
     }
   ],
   "outbounds": [
     {
       "protocol": "freedom",
-      "tag": "direct",
       "settings": {
-        "domainStrategy": "UseIP"
-      }
+        "domainStrategy": "AsIs"
+      },
+      "tag": "direct"
     },
     {
       "protocol": "blackhole",
+      "settings": {},
       "tag": "block"
     }
-  ],
-  "routing": {
-    "domainStrategy": "IPIfNonMatch",
-    "rules": [
-      {
-        "type": "field",
-        "ip": ["geoip:private"],
-        "outboundTag": "block"
-      }
-    ]
-  },
-  "policy": {
-    "levels": {
-      "0": {
-        "bufferSize": 2048,
-        "handshake": 4,
-        "connIdle": 300
-      }
-    }
-  }
+  ]
 }
