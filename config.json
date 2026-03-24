@@ -14,7 +14,6 @@
       },
       "streamSettings": {
         "network": "ws",
-        "network":  "tcp",
         "wsSettings": {
           "path": "/"
         }
