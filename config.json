@@ -6,7 +6,7 @@
       "settings": {
         "clients": [
           {
-            "id": "f0d492c0-96a9-412e-811c-cc10a50bcb08",
+            "id": "f2e17b4d-22fd-44a4-90db-40649717be8e",
             "flow": "xtls-rprx-vision"
           }
         ],
@@ -14,6 +14,7 @@
       },
       "streamSettings": {
         "network": "ws",
+        "network":  "tcp",
         "wsSettings": {
           "path": "/"
         }
