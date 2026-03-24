@@ -1,10 +1,10 @@
 #!/bin/sh
 
-# Start Xray in background
+# Start Xray
 echo "Starting Xray..."
 /usr/local/bin/xray -c /etc/xray/config.json &
 
-# Update Cloudflare DNS if variables are set
+# Update Cloudflare DNS if token is set
 if [ -n "$CF_TOKEN" ] && [ -n "$CF_ZONE_ID" ] && [ -n "$CF_DOMAIN" ]; then
     echo "Updating Cloudflare DNS..."
     
@@ -18,21 +18,15 @@ if [ -n "$CF_TOKEN" ] && [ -n "$CF_ZONE_ID" ] && [ -n "$CF_DOMAIN" ]; then
             -H "Content-Type: application/json" | grep -o '"id":"[^"]*"' | head -1 | cut -d'"' -f4)
         
         if [ -n "$RECORD_ID" ]; then
-            # Update DNS record
             curl -s -X PATCH "https://api.cloudflare.com/client/v4/zones/${CF_ZONE_ID}/dns_records/${RECORD_ID}" \
                 -H "Authorization: Bearer ${CF_TOKEN}" \
                 -H "Content-Type: application/json" \
                 --data "{\"type\":\"A\",\"name\":\"${CF_DOMAIN}\",\"content\":\"${PUBLIC_IP}\",\"ttl\":120,\"proxied\":false}"
-            echo "DNS updated: ${CF_DOMAIN} -> ${PUBLIC_IP}"
+            echo "✓ DNS updated: ${CF_DOMAIN} -> ${PUBLIC_IP}"
         else
-            echo "DNS record not found for ${CF_DOMAIN}"
+            echo "✗ DNS record not found for ${CF_DOMAIN}"
         fi
-    else
-        echo "Failed to get public IP"
     fi
-else
-    echo "Cloudflare variables not set, skipping DNS update"
 fi
 
-# Wait for background processes
 wait
