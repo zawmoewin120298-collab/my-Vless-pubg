@@ -1,7 +1,13 @@
 FROM alpine:latest
 
 # Install dependencies
-RUN apk add --no-cache ca-certificates curl unzip
+RUN apk add --no-cache ca-certificates curl unzip tzdata
+
+# Set timezone
+ENV TZ=Asia/Singapore
+
+# Create log directory
+RUN mkdir -p /var/log/xray
 
 # Install Xray
 RUN curl -L https://github.com/XTLS/Xray-core/releases/latest/download/Xray-linux-64.zip -o /tmp/xray.zip && \
@@ -9,18 +15,14 @@ RUN curl -L https://github.com/XTLS/Xray-core/releases/latest/download/Xray-linu
     chmod +x /usr/local/bin/xray && \
     rm /tmp/xray.zip
 
-# Install cloudflared
-RUN curl -L https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64 -o /usr/local/bin/cloudflared && \
-    chmod +x /usr/local/bin/cloudflared
+# Create config directory
+RUN mkdir -p /etc/xray
 
-# Create directories
-RUN mkdir -p /etc/xray /etc/cloudflared
-
-# Copy configs
+# Copy config
 COPY config.json /etc/xray/config.json
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
 
+# Expose port
 EXPOSE 8080
 
-ENTRYPOINT ["/entrypoint.sh"]
+# Run Xray
+CMD ["/usr/local/bin/xray", "-c", "/etc/xray/config.json"]
